@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leitura de Dados - Google Sheets</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f3f4f6; margin:0; padding:24px; }
+    .container { max-width:1200px; margin:0 auto; background:#fff; border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,.08); padding:24px; }
+    h1 { margin:0 0 16px; font-size:24px; color:#111827; }
+    table { width:100%; border-collapse:collapse; margin-top:16px; }
+    th, td { padding:12px 10px; border:1px solid #d1d5db; text-align:left; font-size:14px; }
+    th { background:#f9fafb; color:#111827; }
+    tbody tr:hover { background:#f3f4f6; }
+    .status { margin-top:16px; font-size:14px; color:#374151; }
+    .error { color:#b91c1c; }
+    .small { font-size:13px; color:#6b7280; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Leitura de Dados do Google Sheets</h1>
+    <p class="small">Fonte: <strong>https://docs.google.com/spreadsheets/d/1scuJgQvtJD58vL5pRhOwVNaB0RLCPFB4FU4AnFd2sgs/edit</strong></p>
+    <p class="small">Aba: <strong>EXPEDIÇÕES SP</strong> | Colunas: <strong>B, C, H, K, N, P, Q, R, T</strong></p>
+    <p class="small">Títulos: <strong>B=Data, C=RDC Origem, H=Nome da linha, K=Motorista, N=Perfil Solicitado, P=Telefone, Q=Placa, R=Transportadora, T=Chegada CDC</strong></p>
+    <div id="status" class="status">Carregando dados...</div>
+    <div style="overflow-x:auto;">
+      <table id="dados-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"><tr><td colspan="10">Aguardando carregamento...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const googleSheetsConfig = {
+      sheetUrl: 'https://docs.google.com/spreadsheets/d/1scuJgQvtJD58vL5pRhOwVNaB0RLCPFB4FU4AnFd2sgs/edit',
+      sheetId: '1scuJgQvtJD58vL5pRhOwVNaB0RLCPFB4FU4AnFd2sgs',
+      sheetName: 'EXPEDIÇÕES SP',
+      range: 'B:T',
+      selectedColumns: ['Data', 'RDC Origem', 'Nome da linha', 'Motorista', 'Perfil Solicitado', 'Telefone', 'Placa', 'Transportadora', 'Chegada CDC'],
+      selectedIndexes: [0, 1, 6, 9, 12, 14, 15, 16, 18]
+    };
+
+    const statusEl = document.getElementById('status');
+    const tableHead = document.getElementById('table-head');
+    const tableBody = document.getElementById('table-body');
+
+    function setStatus(text, isError = false) {
+      statusEl.textContent = text;
+      statusEl.className = 'status' + (isError ? ' error' : '');
+    }
+
+    function buildCell(value) {
+      return value == null ? '' : String(value).replace(/\t/g, ' ');
+    }
+
+    async function loadSheet() {
+      const url = `https://docs.google.com/spreadsheets/d/${googleSheetsConfig.sheetId}/gviz/tq?sheet=${encodeURIComponent(googleSheetsConfig.sheetName)}&range=${googleSheetsConfig.range}&tqx=out:json`;
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const startIndex = text.indexOf('{');
+        const endIndex = text.lastIndexOf('}');
+        if (startIndex === -1 || endIndex === -1) throw new Error('Resposta inválida do Google Sheets');
+
+        const data = JSON.parse(text.slice(startIndex, endIndex + 1));
+        const rows = data.table?.rows || [];
+        const headers = googleSheetsConfig.selectedColumns.map(col => col);
+
+        tableHead.innerHTML = '<tr>' + headers.map(col => `<th>${col}</th>`).join('') + '</tr>';
+
+        if (!rows.length) {
+          tableBody.innerHTML = '<tr><td colspan="10">Nenhum registro encontrado.</td></tr>';
+          setStatus('Não foram encontrados registros na planilha.');
+          return;
+        }
+
+        tableBody.innerHTML = '';
+        rows.forEach(row => {
+          const cells = googleSheetsConfig.selectedIndexes.map(index => {
+            const cell = row.c[index];
+            return buildCell(cell ? (cell.v ?? cell.f ?? '') : '');
+          });
+          const tr = document.createElement('tr');
+          tr.innerHTML = cells.map(value => `<td>${value}</td>`).join('');
+          tableBody.appendChild(tr);
+        });
+
+        setStatus(`Dados carregados: ${rows.length} linhas.`);
+      } catch (error) {
+        tableBody.innerHTML = '<tr><td colspan="10">Erro ao carregar dados.</td></tr>';
+        setStatus('Erro ao carregar dados do Google Sheets.', true);
+        console.error(error);
+      }
+    }
+
+    loadSheet();
+  </script>
+</body>
+</html>

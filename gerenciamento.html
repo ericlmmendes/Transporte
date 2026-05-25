@@ -32,10 +32,10 @@
             <span class="text-xs font-medium text-slate-600" id="user-display-name"></span>
           </div>
 
-          <button id="btn-report" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm flex items-center">
+          <button id="btn-report" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm flex items-center shadow-sm">
             <i class="fa-brands fa-whatsapp mr-2"></i> Relatório
           </button>
-          <button id="btn-logout" class="text-gray-500 hover:text-red-600 transition-colors"><i class="fa-solid fa-right-from-bracket mr-2"></i>Sair</button>
+          <button id="btn-logout" class="text-gray-500 hover:text-red-600 transition-colors font-medium"><i class="fa-solid fa-right-from-bracket mr-2"></i>Sair</button>
         </div>
       </div>
     </header>
@@ -45,88 +45,44 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center">
           <div class="p-3 bg-indigo-100 text-indigo-600 rounded-lg text-xl mr-4"><i class="fa-solid fa-truck"></i></div>
-          <div><p class="text-sm text-gray-500">Total</p><h4 id="stat-total" class="text-2xl font-bold">0</h4></div>
+          <div><p class="text-sm text-gray-500 font-medium">Total</p><h4 id="stat-total" class="text-2xl font-bold text-gray-800">0</h4></div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center">
           <div class="p-3 bg-yellow-100 text-yellow-600 rounded-lg text-xl mr-4"><i class="fa-solid fa-clock"></i></div>
-          <div><p class="text-sm text-gray-500">Aguardando</p><h4 id="stat-aguardando" class="text-2xl font-bold">0</h4></div>
+          <div><p class="text-sm text-gray-500 font-medium">Aguardando</p><h4 id="stat-aguardando" class="text-2xl font-bold text-gray-800">0</h4></div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center">
           <div class="p-3 bg-purple-100 text-purple-600 rounded-lg text-xl mr-4"><i class="fa-solid fa-spinner"></i></div>
-          <div><p class="text-sm text-gray-500">Andamento</p><h4 id="stat-andamento" class="text-2xl font-bold">0</h4></div>
+          <div><p class="text-sm text-gray-500 font-medium">Andamento</p><h4 id="stat-andamento" class="text-2xl font-bold text-gray-800">0</h4></div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center">
           <div class="p-3 bg-green-100 text-green-600 rounded-lg text-xl mr-4"><i class="fa-solid fa-check"></i></div>
-          <div><p class="text-sm text-gray-500">Finalizado</p><h4 id="stat-finalizado" class="text-2xl font-bold">0</h4></div>
+          <div><p class="text-sm text-gray-500 font-medium">Finalizado</p><h4 id="stat-finalizado" class="text-2xl font-bold text-gray-800">0</h4></div>
         </div>
       </div>
 
-      <!-- Seção Google Sheets ultimo dia-->
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-table mr-2"></i>Dados Importados (Data de Amanhã)</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
-              <tr>
-                <th class="px-4 py-3 text-left">B</th>
-                <th class="px-4 py-3 text-left">C</th>
-                <th class="px-4 py-3 text-left">H</th>
-                <th class="px-4 py-3 text-left">I</th>
-                <th class="px-4 py-3 text-left">K</th>
-                <th class="px-4 py-3 text-left">N</th>
-                <th class="px-4 py-3 text-left">P</th>
-                <th class="px-4 py-3 text-left">Q</th>
-                <th class="px-4 py-3 text-left">R</th>
-                <th class="px-4 py-3 text-left">T</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-google-sheets-hoje" class="divide-y divide-gray-200">
-              <tr><td colspan="10" class="px-4 py-6 text-center text-gray-500 text-sm">Carregando dados do Google Sheets...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- Seção Google Sheets  ante penultimo dia-->
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-table mr-2"></i>Dados Importados (Data de Hoje e Ontem)</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
-              <tr>
-                <th class="px-4 py-3 text-left">B</th>
-                <th class="px-4 py-3 text-left">C</th>
-                <th class="px-4 py-3 text-left">H</th>
-                <th class="px-4 py-3 text-left">I</th>
-                <th class="px-4 py-3 text-left">K</th>
-                <th class="px-4 py-3 text-left">N</th>
-                <th class="px-4 py-3 text-left">P</th>
-                <th class="px-4 py-3 text-left">Q</th>
-                <th class="px-4 py-3 text-left">R</th>
-                <th class="px-4 py-3 text-left">T</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-google-sheets-ontem" class="divide-y divide-gray-200">
-              <tr><td colspan="10" class="px-4 py-6 text-center text-gray-500 text-sm">Carregando dados do Google Sheets...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+      <!-- ========================================== -->
+      <!-- FLUXO DE DESCARGA E GESTÃO -->
+      <!-- ========================================== -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         <!-- Tabela Fluxo de Descarga -->
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Fluxo de Descarga</h2>
-          <div class="overflow-x-auto">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+          <div class="p-6 border-b border-gray-200 bg-gray-50/50">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center">
+              <i class="fa-solid fa-truck-ramp-box mr-2 text-indigo-600"></i> Fluxo de Descarga
+            </h2>
+          </div>
+          <div class="overflow-x-auto flex-1 p-0">
             <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+              <thead class="bg-white text-xs text-gray-500 uppercase font-semibold">
                 <tr>
-                  <th class="px-4 py-3 text-left">Motorista</th>
-                  <th class="px-4 py-3 text-left">Placas</th>
-                  <th class="px-4 py-3 text-left">Transportadora</th>
-                  <th class="px-4 py-3 text-left">Status</th>
+                  <th class="px-6 py-4 text-left">Motorista</th>
+                  <th class="px-6 py-4 text-left">Placas</th>
+                  <th class="px-6 py-4 text-left">Transportadora</th>
+                  <th class="px-6 py-4 text-left">Status</th>
                 </tr>
               </thead>
-              <tbody id="tabela-gerenciamento" class="divide-y divide-gray-200 cursor-pointer"></tbody>
+              <tbody id="tabela-gerenciamento" class="divide-y divide-gray-100 cursor-pointer bg-white"></tbody>
             </table>
           </div>
         </div>
@@ -134,62 +90,166 @@
         <div class="space-y-6">
           <!-- Gestão Usuários -->
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Criar Usuário</h2>
-            <form id="user-form" class="space-y-3">
-              <input type="text" id="new_user" placeholder="Login" class="w-full rounded-lg border-gray-300 border p-2 text-sm" required>
-              <input type="password" id="new_pass" placeholder="Senha" class="w-full rounded-lg border-gray-300 border p-2 text-sm" required>
-              <input type="text" id="new_colaborador" placeholder="Nome do Colaborador" class="w-full rounded-lg border-gray-300 border p-2 text-sm" required>
-              <label class="block text-xs text-gray-600">Foto (opcional)</label>
-              <input type="file" id="new_foto_upload" accept="image/*" class="w-full rounded-lg border-gray-300 border p-2 text-sm">
-              <select id="new_role" class="w-full rounded-lg border-gray-300 border p-2 text-sm">
-                <option value="motorista">Motorista</option>
-                <option value="portaria">Portaria</option>
-                <option value="admin">Admin</option>
-                <option value="visualizacao">Visualização</option>
-              </select>
-              <select id="new_transportadora" class="w-full rounded-lg border-gray-300 border p-2 text-sm hidden">
-                <option value="">Selecionar Transportadora...</option>
-                <option value="2 log">2 log</option>
-                <option value="3 log">3 log</option>
-                <option value="4 log">4 log</option>
-              </select>
-              <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-sm font-bold">Cadastrar</button>
+            <h2 class="text-lg font-bold text-gray-800 mb-5 border-b border-gray-100 pb-3 flex items-center">
+              <i class="fa-solid fa-user-shield mr-2 text-indigo-600"></i> Gestão de Usuários
+            </h2>
+            <form id="user-form" class="space-y-4">
+              <div class="grid grid-cols-2 gap-3">
+                <input type="text" id="new_user" placeholder="Login" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" required>
+                <input type="password" id="new_pass" placeholder="Senha" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" required>
+              </div>
+              <input type="text" id="new_colaborador" placeholder="Nome Completo do Colaborador" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" required>
+              
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Foto do Perfil (Opcional)</label>
+                <input type="file" id="new_foto_upload" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-all cursor-pointer">
+              </div>
+
+              <div class="grid grid-cols-1 gap-3">
+                <select id="new_role" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+                  <option value="motorista">Motorista</option>
+                  <option value="portaria">Portaria</option>
+                  <option value="admin">Administrador</option>
+                  <option value="visualizacao">Visualização</option>
+                </select>
+                <select id="new_transportadora" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hidden">
+                  <option value="">Selecionar Transportadora...</option>
+                  <option value="2 log">2 log</option>
+                  <option value="3 log">3 log</option>
+                  <option value="4 log">4 log</option>
+                </select>
+              </div>
+              
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 transition-all flex items-center justify-center gap-2 mt-2">
+                <i class="fa-solid fa-user-plus"></i> Cadastrar Usuário
+              </button>
             </form>
           </div>
 
           <!-- Painel EricLM -->
-          <div id="admin-eric-panel" class="hidden bg-slate-800 rounded-xl shadow-sm border border-gray-700 p-6 text-white">
-            <h2 class="text-lg font-bold mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-crown text-yellow-400 mr-2"></i>Controle Admin</h2>
-            <div class="space-y-4">
-              <button onclick="window.limparChat('global')" class="w-full bg-red-600 hover:bg-red-700 text-xs py-2 rounded">Limpar Chat Global</button>
-              <button onclick="window.limparChat('motorista')" class="w-full bg-red-600 hover:bg-red-700 text-xs py-2 rounded">Limpar Chat Motorista</button>
-              <button onclick="window.limparChat('admin')" class="w-full bg-red-600 hover:bg-red-700 text-xs py-2 rounded">Limpar Chat Admin</button>
-              <div class="pt-2 border-t border-slate-700">
-                <p class="text-[10px] uppercase text-slate-400 mb-2">Banir Usuário</p>
+          <div id="admin-eric-panel" class="hidden bg-slate-900 rounded-xl shadow-lg border border-slate-700 p-6 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+            
+            <h2 class="text-lg font-bold mb-5 border-b border-slate-700 pb-3 flex items-center relative z-10">
+              <i class="fa-solid fa-crown text-yellow-400 mr-2 drop-shadow-md"></i> Controle Master
+            </h2>
+            
+            <div class="space-y-3 relative z-10">
+              <button onclick="window.limparChat('global')" class="w-full bg-slate-800 hover:bg-red-600 border border-slate-700 hover:border-red-500 text-slate-300 hover:text-white transition-all duration-200 text-xs py-2.5 rounded-lg flex items-center justify-center gap-2">
+                <i class="fa-solid fa-eraser"></i> Limpar Chat Global
+              </button>
+              <button onclick="window.limparChat('motorista')" class="w-full bg-slate-800 hover:bg-red-600 border border-slate-700 hover:border-red-500 text-slate-300 hover:text-white transition-all duration-200 text-xs py-2.5 rounded-lg flex items-center justify-center gap-2">
+                <i class="fa-solid fa-eraser"></i> Limpar Chat Motorista
+              </button>
+              <button onclick="window.limparChat('admin')" class="w-full bg-slate-800 hover:bg-red-600 border border-slate-700 hover:border-red-500 text-slate-300 hover:text-white transition-all duration-200 text-xs py-2.5 rounded-lg flex items-center justify-center gap-2">
+                <i class="fa-solid fa-eraser"></i> Limpar Chat Admin
+              </button>
+              
+              <div class="pt-4 mt-2 border-t border-slate-700/50">
+                <p class="text-[10px] tracking-wider font-semibold uppercase text-slate-400 mb-2">Punições de Usuário</p>
                 <div class="flex gap-2">
-                  <input type="text" id="ban_user" placeholder="Login..." class="flex-1 bg-slate-900 border-none rounded p-1.5 text-xs">
-                  <button onclick="window.toggleBan(true)" class="bg-orange-600 p-2 rounded text-xs">Banir</button>
-                  <button onclick="window.toggleBan(false)" class="bg-green-600 p-2 rounded text-xs">OK</button>
+                  <input type="text" id="ban_user" placeholder="Digite o Login..." class="flex-1 bg-slate-800 border border-slate-600 focus:border-indigo-500 outline-none rounded-lg p-2 text-xs text-white placeholder-slate-500 transition-colors">
+                  <button onclick="window.toggleBan(true)" class="bg-orange-600 hover:bg-orange-500 text-white px-3 rounded-lg text-xs font-bold transition-colors shadow-lg shadow-orange-900/50" title="Banir">Banir</button>
+                  <button onclick="window.toggleBan(false)" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 rounded-lg text-xs font-bold transition-colors shadow-lg shadow-emerald-900/50" title="Desbanir">OK</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- ========================================== -->
+      <!-- GOOGLE SHEETS A BAIXO DO FLUXO DE DESCARGA -->
+      <!-- ========================================== -->
+      
+      <!-- Seção Google Sheets Data de Amanhã -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 border-b pb-4 gap-4">
+          <div class="flex items-center gap-2">
+            <h2 class="text-lg font-bold text-gray-800 flex-1"><i class="fa-solid fa-calendar-day mr-2 text-indigo-600"></i>Dados Importados (Data de Amanhã)</h2>
+            <a href="google-sheets-leitura.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium ml-2 transition-colors whitespace-nowrap">Ver leitura completa &rarr;</a>
+          </div>
+          
+          <!-- CAMPO DE PESQUISA AMANHÃ -->
+          <div class="relative w-full md:w-72">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fa-solid fa-search text-gray-400 text-sm"></i>
+            </div>
+            <input type="text" id="pesquisa-amanha" placeholder="Buscar por Motorista..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+              <tr>
+                <th class="px-4 py-3 text-left">Data</th>
+                <th class="px-4 py-3 text-left">RDC Origem</th>
+                <th class="px-4 py-3 text-left">Nome da linha</th>
+                <th class="px-4 py-3 text-left">Motorista</th>
+                <th class="px-4 py-3 text-left">Perfil Solicitado</th>
+                <th class="px-4 py-3 text-left">Telefone</th>
+                <th class="px-4 py-3 text-left">Placa</th>
+                <th class="px-4 py-3 text-left">Transportadora</th>
+                <th class="px-4 py-3 text-left">Chegada CDC</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-google-sheets-amanha" class="divide-y divide-gray-200">
+              <tr><td colspan="9" class="px-4 py-6 text-center text-gray-500 text-sm">Carregando dados do Google Sheets...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Seção Google Sheets Data de Hoje e Ontem -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 border-b pb-4 gap-4">
+          <h2 class="text-lg font-bold text-gray-800"><i class="fa-solid fa-clock-rotate-left mr-2 text-indigo-600"></i>Dados Importados (Data de Hoje e Ontem)</h2>
+          
+          <!-- CAMPO DE PESQUISA HOJE/ONTEM -->
+          <div class="relative w-full md:w-72">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fa-solid fa-search text-gray-400 text-sm"></i>
+            </div>
+            <input type="text" id="pesquisa-hoje-ontem" placeholder="Buscar por Motorista..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+          </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+              <tr>
+                <th class="px-4 py-3 text-left">Data</th>
+                <th class="px-4 py-3 text-left">RDC Origem</th>
+                <th class="px-4 py-3 text-left">Nome da linha</th>
+                <th class="px-4 py-3 text-left">Motorista</th>
+                <th class="px-4 py-3 text-left">Perfil Solicitado</th>
+                <th class="px-4 py-3 text-left">Telefone</th>
+                <th class="px-4 py-3 text-left">Placa</th>
+                <th class="px-4 py-3 text-left">Transportadora</th>
+                <th class="px-4 py-3 text-left">Chegada CDC</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-google-sheets-hoje-ontem" class="divide-y divide-gray-200">
+              <tr><td colspan="9" class="px-4 py-6 text-center text-gray-500 text-sm">Carregando dados do Google Sheets...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </main>
   </div>
 
   <!-- Modal Detalhes -->
-  <div id="modal-details" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+  <div id="modal-details" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
       <div id="modal-content"></div>
-      <div class="p-4 bg-gray-50 flex justify-end">
-        <button onclick="document.getElementById('modal-details').classList.add('hidden')" class="px-6 py-2 bg-gray-200 rounded-lg font-bold">Fechar</button>
+      <div class="p-4 bg-gray-50 flex justify-end border-t border-gray-100">
+        <button onclick="document.getElementById('modal-details').classList.add('hidden')" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 transition-colors rounded-lg font-bold text-gray-700">Fechar</button>
       </div>
     </div>
   </div>
 
-  <aside id="chat-container" class="w-96 flex-shrink-0 hidden md:block z-20"></aside>
+  <aside id="chat-container" class="w-96 flex-shrink-0 hidden md:block z-20 border-l border-gray-200 bg-white"></aside>
 
   <script type="module">
     import { checkAuth, logout } from './auth.js';
@@ -206,44 +266,57 @@
     const googleSheetsConfig = {
       sheetId: '1scuJgQvtJD58vL5pRhOwVNaB0RLCPFB4FU4AnFd2sgs',
       sheetName: 'EXPEDIÇÕES SP',
-      range: 'B:T',
-      selectedColumns: ['B', 'C', 'H', 'I', 'K', 'N', 'P', 'Q', 'R', 'T'],
-      selectedIndexes: [0, 1, 6, 7, 9, 12, 14, 15, 16, 18],
-      todayTableId: 'tabela-google-sheets-hoje',
-      yesterdayTableId: 'tabela-google-sheets-ontem'
+      range: 'B:T', 
+      // Mapeamento: Colunas B(0), C(1), H(6), K(9), N(12), P(14), Q(15), R(16), T(18)
+      selectedColumns: ['B - Data', 'C - RDC Origem', 'H - Nome da linha', 'K - Motorista', 'N - Perfil Solicitado', 'P - Telefone', 'Q - Placa', 'R - Transportadora', 'T - Chegada CDC'],
+      selectedIndexes: [0, 1, 6, 9, 12, 14, 15, 16, 18],
+      amanhaTableId: 'tabela-google-sheets-amanha',
+      hojeOntemTableId: 'tabela-google-sheets-hoje-ontem'
     };
+
+    // Variáveis globais para armazenar os dados e permitir a pesquisa sem precisar recarregar
+    let cacheAmanhaRows = [];
+    let cacheHojeOntemRows = [];
+    let cacheHeaders = [];
 
     initChat(user, 'chat-container', 'admin');
     loadGoogleSheets();
 
+    // Leitor de datas aprimorado (evita erros de fuso horário e lê formato nativo JSON do Google)
     function parsePossibleDate(value) {
       if (value == null) return null;
       if (value instanceof Date && !isNaN(value)) return value;
       const stringValue = String(value).trim();
       if (!stringValue) return null;
 
+      if (stringValue.startsWith('Date(')) {
+        const match = stringValue.match(/Date\((\d+),(\d+),(\d+)/);
+        if (match) return new Date(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
+      }
+
       const dateIso = stringValue.replace(/\./g, '-').replace(/\//g, '-');
       const ymd = /^(\d{4})-(\d{1,2})-(\d{1,2})$/;
       const dmy = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
 
       let match = dateIso.match(ymd);
-      if (match) return new Date(`${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`);
+      if (match) return new Date(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]));
+      
       match = dateIso.match(dmy);
-      if (match) return new Date(`${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}`);
+      if (match) return new Date(parseInt(match[3]), parseInt(match[2]) - 1, parseInt(match[1]));
 
       const parsed = new Date(stringValue);
       return !isNaN(parsed) ? parsed : null;
     }
 
     function normalizeLocalDate(date) {
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
     }
 
     function formatRowData(row, headers) {
       return headers.map((label, index) => {
         const columnIndex = googleSheetsConfig.selectedIndexes[index];
         const cell = row.c[columnIndex];
-        const value = cell ? (cell.v ?? cell.f ?? '') : '';
+        let value = cell ? (cell.f ?? cell.v ?? '') : '';
         return typeof value === 'string' ? value.trim() : value;
       });
     }
@@ -252,62 +325,95 @@
       const tbody = document.getElementById(tableId);
       if (!tbody) return;
       tbody.innerHTML = '';
+      
       if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="px-4 py-6 text-center text-gray-500 text-sm">Nenhum registro encontrado.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" class="px-4 py-6 text-center text-gray-500 text-sm italic">Nenhum registro encontrado.</td></tr>`;
         return;
       }
 
       rows.forEach((row) => {
         const cells = formatRowData(row, headerLabels);
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition';
-        tr.innerHTML = cells.map(cell => `<td class="px-4 py-3 text-xs text-gray-700">${cell ?? ''}</td>`).join('');
+        tr.className = 'hover:bg-indigo-50/50 transition-colors';
+        tr.innerHTML = cells.map(cell => `<td class="px-4 py-3 text-xs text-gray-700 whitespace-nowrap border-b border-gray-100">${cell ?? ''}</td>`).join('');
         tbody.appendChild(tr);
       });
     }
 
+    // Filtra as linhas com base no input do motorista
+    function filtrarPorMotorista(rows, termoPesquisa) {
+      if (!termoPesquisa) return rows; // Se vazio, retorna tudo
+      const termo = termoPesquisa.toLowerCase();
+      const motoristaColumnIndex = googleSheetsConfig.selectedIndexes[3]; // Coluna K (índice 9), que representa o Motorista
+      
+      return rows.filter(row => {
+        const cell = row.c[motoristaColumnIndex];
+        const valor = cell ? String(cell.f ?? cell.v ?? '').toLowerCase() : '';
+        return valor.includes(termo);
+      });
+    }
+
+    // Eventos de digitação (pesquisa)
+    document.getElementById('pesquisa-amanha').addEventListener('input', (e) => {
+      const termo = e.target.value;
+      const linhasFiltradas = filtrarPorMotorista(cacheAmanhaRows, termo);
+      renderGoogleSheetRows(linhasFiltradas, googleSheetsConfig.amanhaTableId, cacheHeaders);
+    });
+
+    document.getElementById('pesquisa-hoje-ontem').addEventListener('input', (e) => {
+      const termo = e.target.value;
+      const linhasFiltradas = filtrarPorMotorista(cacheHojeOntemRows, termo);
+      renderGoogleSheetRows(linhasFiltradas, googleSheetsConfig.hojeOntemTableId, cacheHeaders);
+    });
+
     async function loadGoogleSheets() {
       const url = `https://docs.google.com/spreadsheets/d/${googleSheetsConfig.sheetId}/gviz/tq?sheet=${encodeURIComponent(googleSheetsConfig.sheetName)}&range=${googleSheetsConfig.range}&tqx=out:json`;
+      
       try {
         const response = await fetch(url);
         const text = await response.text();
         const jsonStart = text.indexOf('{');
         const jsonEnd = text.lastIndexOf('}');
         if (jsonStart === -1 || jsonEnd === -1) throw new Error('Formato inválido do Google Sheets');
+        
         const data = JSON.parse(text.slice(jsonStart, jsonEnd + 1));
         const rows = data.table?.rows || [];
 
-        const headerLabels = data.table?.cols?.map((col, index) => col.label || googleSheetsConfig.selectedColumns[index]) || googleSheetsConfig.selectedColumns;
-        let possibleDateIndex = data.table?.cols?.findIndex((col) => /(data|date|dia)/i.test(col.label || ''));
-        if (possibleDateIndex < 0) {
-          possibleDateIndex = googleSheetsConfig.selectedIndexes.find((idx) => rows.some((row) => parsePossibleDate(row.c[idx]?.v ?? row.c[idx]?.f)));
-        }
-        possibleDateIndex = possibleDateIndex >= 0 ? possibleDateIndex : googleSheetsConfig.selectedIndexes[0];
+        cacheHeaders = data.table?.cols?.map((col, index) => col.label || googleSheetsConfig.selectedColumns[index]) || googleSheetsConfig.selectedColumns;
+        
+        let possibleDateIndex = googleSheetsConfig.selectedIndexes[0];
 
-        const today = normalizeLocalDate(new Date());
-        const yesterday = normalizeLocalDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
+        const now = new Date();
+        const todayTime = normalizeLocalDate(now);
+        const tomorrowTime = normalizeLocalDate(new Date(now.getTime() + 24 * 60 * 60 * 1000));
+        const yesterdayTime = normalizeLocalDate(new Date(now.getTime() - 24 * 60 * 60 * 1000));
 
-        const todayRows = [];
-        const yesterdayRows = [];
+        // Limpa os arrays globais
+        cacheAmanhaRows = [];
+        cacheHojeOntemRows = [];
 
         rows.forEach((row) => {
           const dateCell = row.c[possibleDateIndex];
-          const parsedDate = parsePossibleDate(dateCell?.v ?? dateCell?.f);
+          const parsedDate = parsePossibleDate(dateCell?.f ?? dateCell?.v);
           if (!parsedDate) return;
-          const rowDate = normalizeLocalDate(parsedDate);
-          if (rowDate.getTime() === today.getTime()) {
-            todayRows.push(row);
-          } else if (rowDate.getTime() === yesterday.getTime()) {
-            yesterdayRows.push(row);
+          
+          const rowTime = normalizeLocalDate(parsedDate);
+
+          if (rowTime === tomorrowTime) {
+            cacheAmanhaRows.push(row);
+          } else if (rowTime === todayTime || rowTime === yesterdayTime) {
+            cacheHojeOntemRows.push(row);
           }
         });
 
-        renderGoogleSheetRows(todayRows, googleSheetsConfig.todayTableId, headerLabels);
-        renderGoogleSheetRows(yesterdayRows, googleSheetsConfig.yesterdayTableId, headerLabels);
+        // Renderiza Inicial
+        renderGoogleSheetRows(cacheAmanhaRows, googleSheetsConfig.amanhaTableId, cacheHeaders);
+        renderGoogleSheetRows(cacheHojeOntemRows, googleSheetsConfig.hojeOntemTableId, cacheHeaders);
+        
       } catch (error) {
-        const errorHtml = `<tr><td colspan="10" class="px-4 py-6 text-center text-red-500 text-sm">Erro ao carregar dados do Google Sheets.</td></tr>`;
-        document.getElementById(googleSheetsConfig.todayTableId).innerHTML = errorHtml;
-        document.getElementById(googleSheetsConfig.yesterdayTableId).innerHTML = errorHtml;
+        const errorHtml = `<tr><td colspan="9" class="px-4 py-6 text-center text-red-500 text-sm font-medium">Erro ao carregar dados do Google Sheets. Verifique a URL e se a planilha está pública.</td></tr>`;
+        document.getElementById(googleSheetsConfig.amanhaTableId).innerHTML = errorHtml;
+        document.getElementById(googleSheetsConfig.hojeOntemTableId).innerHTML = errorHtml;
         console.error('Erro Google Sheets:', error);
       }
     }
@@ -346,10 +452,10 @@
 
     const table = document.getElementById('tabela-gerenciamento');
     const statusMap = {
-      'aguardando_descarga': { label: 'Aguard. Carregamento', color: 'bg-yellow-100 text-yellow-800', next: 'descarga_em_andamento', btnLabel: 'Iniciar', btnColor: 'bg-purple-600' },
-      'descarga_em_andamento': { label: 'Em Andamento', color: 'bg-purple-100 text-purple-800', next: 'descarga_finalizada', btnLabel: 'Finalizar', btnColor: 'bg-blue-600' },
-      'descarga_finalizada': { label: 'Finalizada', color: 'bg-blue-100 text-blue-800', next: 'liberado', btnLabel: 'Liberar', btnColor: 'bg-green-600' },
-      'liberado': { label: 'Liberado', color: 'bg-green-100 text-green-800', next: null }
+      'aguardando_descarga': { label: 'Aguard. Carregamento', color: 'bg-yellow-100 text-yellow-800 border-yellow-200', next: 'descarga_em_andamento', btnLabel: 'Iniciar', btnColor: 'bg-purple-600' },
+      'descarga_em_andamento': { label: 'Em Andamento', color: 'bg-purple-100 text-purple-800 border-purple-200', next: 'descarga_finalizada', btnLabel: 'Finalizar', btnColor: 'bg-blue-600' },
+      'descarga_finalizada': { label: 'Finalizada', color: 'bg-blue-100 text-blue-800 border-blue-200', next: 'liberado', btnLabel: 'Liberar', btnColor: 'bg-green-600' },
+      'liberado': { label: 'Liberado', color: 'bg-green-100 text-green-800 border-green-200', next: null }
     };
 
     let cacheTransportes = {};
@@ -371,12 +477,12 @@
         if (statusMap[t.status]) {
           const config = statusMap[t.status];
           const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-50 transition";
+          tr.className = "hover:bg-indigo-50/50 transition-colors group";
           tr.innerHTML = `
-            <td class="px-4 py-3 text-sm font-medium" onclick="window.verDetalhes('${id}')">${t.motorista}</td>
-            <td class="px-4 py-3 text-xs text-gray-500" onclick="window.verDetalhes('${id}')">${t.placa_carro}</td>
-            <td class="px-4 py-3 text-xs text-gray-500" onclick="window.verDetalhes('${id}')">${t.transportadora}</td>
-            <td class="px-4 py-3"><span class="${config.color} px-2 py-0.5 rounded text-[10px] font-bold">${config.label}</span></td>
+            <td class="px-6 py-4 text-sm font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors" onclick="window.verDetalhes('${id}')">${t.motorista}</td>
+            <td class="px-6 py-4 text-xs font-medium text-gray-600" onclick="window.verDetalhes('${id}')">${t.placa_carro}</td>
+            <td class="px-6 py-4 text-xs font-medium text-gray-600" onclick="window.verDetalhes('${id}')">${t.transportadora}</td>
+            <td class="px-6 py-4"><span class="${config.color} border px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm inline-block">${config.label}</span></td>
           `;
           table.appendChild(tr);
         }
@@ -392,21 +498,29 @@
       const modal = document.getElementById('modal-details');
       const content = document.getElementById('modal-content');
       
-      let geoHtml = t.lat ? `<a href="https://www.google.com/maps?q=${t.lat},${t.lng}" target="_blank" class="mt-4 block text-center bg-indigo-600 text-white py-2 rounded-lg"><i class="fa-solid fa-location-dot mr-2"></i>Ver Localização no Mapa</a>` : `<p class="text-gray-400 text-xs italic mt-4">Localização não capturada</p>`;
+      let geoHtml = t.lat ? `<a href="https://www.google.com/maps?q=${t.lat},${t.lng}" target="_blank" class="mt-4 block text-center bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg transition-colors font-medium shadow-sm"><i class="fa-solid fa-location-dot mr-2"></i>Ver Localização no Mapa</a>` : `<div class="mt-4 text-center py-2 bg-gray-100 rounded-lg"><p class="text-gray-400 text-xs italic"><i class="fa-solid fa-location-crosshairs mr-1"></i>Localização não capturada</p></div>`;
 
       content.innerHTML = `
-        <div class="h-48 w-full bg-gray-200">
-          ${t.foto ? `<img src="${t.foto}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-image text-4xl text-gray-400"></i></div>`}
-        </div>
-          <div class="h-48 w-full bg-gray-200"> 
-          ${t.foto_doc ? `<img src="${t.foto_doc}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-image text-4xl text-gray-400"></i></div>`}
+        <div class="flex">
+          <div class="h-48 w-1/2 bg-gray-100 border-r border-gray-200">
+            ${t.foto ? `<img src="${t.foto}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex flex-col items-center justify-center"><i class="fa-solid fa-user text-3xl text-gray-300 mb-2"></i><span class="text-[10px] text-gray-400">Sem foto perfil</span></div>`}
+          </div>
+          <div class="h-48 w-1/2 bg-gray-100"> 
+            ${t.foto_doc ? `<img src="${t.foto_doc}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex flex-col items-center justify-center"><i class="fa-solid fa-file-lines text-3xl text-gray-300 mb-2"></i><span class="text-[10px] text-gray-400">Sem foto doc</span></div>`}
+          </div>
         </div>
         <div class="p-6">
           <h3 class="text-xl font-bold text-gray-800">${t.motorista}</h3>
-          <p class="text-sm text-gray-500">Status: ${t.status}</p>
-          <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
-            <div class="bg-slate-50 p-3 rounded"><strong>Placa do Carro:</strong><br>${t.placa_carro}</div>
-            <div class="bg-slate-50 p-3 rounded"><strong>Transportadora:</strong><br>${t.transportadora}</div>
+          <p class="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-4 mt-1">Status: ${statusMap[t.status]?.label || t.status}</p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="bg-gray-50 border border-gray-100 p-3 rounded-xl shadow-sm">
+              <span class="block text-xs text-gray-400 uppercase font-bold mb-1">Placa</span>
+              <strong class="text-gray-700">${t.placa_carro}</strong>
+            </div>
+            <div class="bg-gray-50 border border-gray-100 p-3 rounded-xl shadow-sm">
+              <span class="block text-xs text-gray-400 uppercase font-bold mb-1">Transportadora</span>
+              <strong class="text-gray-700">${t.transportadora}</strong>
+            </div>
           </div>
           ${geoHtml}
         </div>
@@ -419,14 +533,15 @@
     };
 
     window.limparChat = async (room) => {
-      if(confirm('Limpar todas as mensagens deste canal?')) await remove(ref(db, `chat/${room}`));
+      if(confirm(`Tem certeza que deseja apagar todo o histórico do chat (${room})?`)) await remove(ref(db, `chat/${room}`));
     };
 
     window.toggleBan = async (status) => {
       const login = document.getElementById('ban_user').value.trim();
       if(!login) return;
       await update(ref(db, `users/${login}`), { banned: status });
-      alert(`Usuário ${login} ${status ? 'Banido' : 'Desbanido'}`);
+      alert(`Status do usuário '${login}' alterado com sucesso!`);
+      document.getElementById('ban_user').value = '';
     };
 
     document.getElementById('user-form').onsubmit = async (e) => {
@@ -440,7 +555,6 @@
       
       let avatar = `https://ui-avatars.com/api/?name=${u}&background=random`;
       
-      // Se houver arquivo de foto, converter para base64
       if (fotoFile) {
         avatar = await resizeImg(fotoFile);
       }
@@ -451,12 +565,11 @@
       }
       
       await set(ref(db, `users/${u}`), userData);
-      alert('OK!'); 
+      alert('Usuário cadastrado com sucesso!'); 
       e.target.reset();
       document.getElementById('new_transportadora').classList.add('hidden');
     };
 
-    // Mostrar/esconder seletor de transportadora baseado na role
     document.getElementById('new_role').addEventListener('change', (e) => {
       const selectTransportadora = document.getElementById('new_transportadora');
       if (e.target.value === 'visualizacao') {

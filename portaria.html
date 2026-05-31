@@ -8,173 +8,100 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-50 font-[Inter] h-screen flex overflow-hidden">
+<body class="bg-slate-50 font-[Inter] h-screen flex flex-col overflow-hidden">
 
-  <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-      <div class="px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="bg-indigo-600 p-2 rounded-lg">
-            <i class="fa-solid fa-door-open text-white"></i>
-          </div>
-          <h1 class="text-xl font-bold text-slate-800">Controle de Portaria</h1>
-        </div>
-        <div class="flex items-center gap-4">
-          <label for="input-avatar" class="cursor-pointer group relative">
-            <img id="user-avatar-img" src="" class="w-8 h-8 rounded-full object-cover border border-indigo-200">
-            <input type="file" id="input-avatar" class="hidden" accept="image/*">
-          </label>
-          <button id="logout" class="text-gray-500 hover:text-red-600 transition-colors">
-            <i class="fa-solid fa-right-from-bracket mr-2"></i>Sair
-          </button>
-        </div>
+  <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+    <div class="px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 p-2 rounded-lg"><i class="fa-solid fa-door-open text-white"></i></div>
+        <h1 class="text-xl font-bold text-slate-800">Controle de Portaria</h1>
       </div>
-    </header>
-
-    <main class="p-6">
-      <div class="mb-6">
-        <h2 class="text-lg font-semibold text-gray-800">Veículos Aguardando</h2>
-        <p class="text-sm text-gray-500">Libere a entrada dos motoristas após conferência documental.</p>
-        <div class="mt-4">
-          <input type="text" id="search-motorista" placeholder="🔍 Pesquisar motorista ou placa..." class="w-full md:w-1/3 rounded-lg border border-gray-300 p-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500">
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="trips-container">
-        <!-- Cards serão injetados aqui -->
-      </div>
-    </main>
-  </div>
-
-  <aside id="chat-container" class="w-96 flex-shrink-0 hidden md:block z-20 border-l border-gray-200"></aside>
-
-  <!-- Modal Zoom de Imagem -->
-  <div id="modal-zoom" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl overflow-hidden shadow-2xl max-w-2xl w-full">
-      <div class="relative">
-        <img id="zoom-image" src="" class="w-full h-auto max-h-96 object-contain">
-        <button onclick="document.getElementById('modal-zoom').classList.add('hidden')" class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center">
-          <i class="fa-solid fa-times"></i>
-        </button>
-      </div>
-      <div class="p-4 bg-gray-50 text-center">
-        <button onclick="document.getElementById('modal-zoom').classList.add('hidden')" class="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg font-bold">Fechar</button>
+      <div class="flex items-center gap-4">
+        <img id="user-avatar-img" src="" class="w-8 h-8 rounded-full object-cover border">
+        <span id="user-display-name" class="text-sm font-semibold text-slate-800"></span>
+        <button id="logout" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-right-from-bracket mr-2"></i>Sair</button>
       </div>
     </div>
+  </header>
+
+  <main class="flex-1 p-6 overflow-y-auto">
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-800">Aguardando Validação de Entrada</h2>
+      <input type="text" id="search-motorista" placeholder="Pesquisar motorista ou placa..." class="mt-4 w-full md:w-1/3 rounded-lg border p-3 text-sm">
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="trips-container"></div>
+  </main>
+
+  <!-- Modal para Expansão de Imagem -->
+  <div id="image-zoom-modal" class="fixed inset-0 bg-black/90 hidden z-[200] items-center justify-center p-4 cursor-pointer" onclick="this.classList.add('hidden')">
+    <img id="zoomed-image" src="" class="max-w-full max-h-full rounded-lg shadow-2xl">
+  </div>
+
+  <!-- CHAT FLUTUANTE -->
+  <div id="floating-chat-container" class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+    <div id="chat-window" class="hidden w-80 md:w-96 h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden mb-4 flex flex-col">
+      <div class="bg-indigo-600 p-4 text-white flex justify-between items-center">
+        <span class="font-bold"><i class="fa-solid fa-comments mr-2"></i>Chat Operacional</span>
+        <button onclick="window.toggleChat()" class="hover:opacity-75"><i class="fa-solid fa-times"></i></button>
+      </div>
+      <div id="chat-box" class="flex-1 overflow-hidden"></div>
+    </div>
+    <button onclick="window.toggleChat()" class="bg-indigo-600 hover:bg-indigo-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-xl transition-all hover:scale-110">
+      <i class="fa-solid fa-message"></i>
+    </button>
   </div>
 
   <script type="module">
-    import { db, ref, onValue, update } from './bd.js';
+    import { db, ref, onValue, update, serverTimestamp } from './bd.js';
     import { checkAuth, logout } from './auth.js';
     import { initChat } from './chat.js';
 
     const user = checkAuth('portaria');
     document.getElementById('logout').addEventListener('click', logout);
-    document.getElementById('user-avatar-img').src = user.avatar;
+    document.getElementById('user-avatar-img').src = user.avatar || 'https://via.placeholder.com/150';
+    document.getElementById('user-display-name').textContent = user.colaborador || user.username || '';
     
-    initChat(user, 'chat-container', 'portaria');
+    initChat(user, 'chat-box', 'portaria');
 
-    const transRef = ref(db, 'transportes');
-    const container = document.getElementById('trips-container');
-    const searchInput = document.getElementById('search-motorista');
-    let allTrips = {};
+    window.toggleChat = () => {
+      document.getElementById('chat-window').classList.toggle('hidden');
+    };
 
-    const renderCards = (dataToRender) => {
+    window.expandImage = (src) => {
+      const modal = document.getElementById('image-zoom-modal');
+      const img = document.getElementById('zoomed-image');
+      img.src = src;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    onValue(ref(db, 'transportes'), (snapshot) => {
+      const container = document.getElementById('trips-container');
       container.innerHTML = '';
-      if (Object.keys(dataToRender).length === 0) {
-        container.innerHTML = '<div class="col-span-full bg-white p-10 rounded-xl border border-dashed border-gray-300 text-center text-gray-500">Nenhum veículo encontrado.</div>';
-        return;
-      }
+      const data = snapshot.val();
+      if (!data) return;
 
-      Object.entries(dataToRender).forEach(([id, t]) => {
+      Object.entries(data).forEach(([id, t]) => {
         if(t.status === 'aguardando_portaria') {
           const card = document.createElement('div');
-          card.className = 'bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow';
+          card.className = 'bg-white rounded-xl shadow-sm border p-5';
           card.innerHTML = `
-            <div class="p-5">
-              <div class="flex justify-between items-start mb-4">
-                <div>
-                  <h3 class="font-bold text-gray-800">${t.motorista}</h3>
-                  <span class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Aguardando Portaria</span>
-                </div>
-                <div class="bg-yellow-100 text-yellow-700 p-2 rounded-lg text-xs font-bold">
-                  <i class="fa-solid fa-clock"></i>
-                </div>
-              </div>
-              <div class="space-y-3 mb-5">
-                <div class="flex justify-between text-sm">
-                  <span class="text-gray-500">Placa do Carro:</span>
-                  <span class="font-mono font-bold text-slate-700">${t.placa_carro}</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-gray-500">Transportadora:</span>
-                  <span class="font-mono font-bold text-slate-700">${t.transportadora}</span>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-2 mb-4">
-                ${t.foto_doc ? `<img src="${t.foto_doc}" class="w-full h-32 object-cover rounded-lg border border-gray-100 cursor-pointer hover:opacity-75 transition" onclick="window.openZoom('${t.foto_doc}')">` : ''}
-                ${t.foto ? `<img src="${t.foto}" class="w-full h-32 object-cover rounded-lg border border-gray-100 cursor-pointer hover:opacity-75 transition" onclick="window.openZoom('${t.foto}')">` : ''}
-              </div>
-              <button onclick="window.liberarEntrada('${id}')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition-colors shadow-sm">
-                Liberar Entrada
-              </button>
+            <h3 class="font-bold text-gray-800">${t.motorista}</h3>
+            <p class="text-xs text-gray-500 mb-4">${t.placa_carro} | ${t.transportadora}</p>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+              <img src="${t.foto}" class="h-32 w-full object-cover rounded-lg border cursor-zoom-in hover:opacity-90 transition-opacity" onclick="window.expandImage('${t.foto}')">
+              <img src="${t.foto_veiculo}" class="h-32 w-full object-cover rounded-lg border cursor-zoom-in hover:opacity-90 transition-opacity" onclick="window.expandImage('${t.foto_veiculo}')">
             </div>
+            <button onclick="window.liberar('${id}')" class="w-full bg-green-600 text-white py-2 rounded-lg font-bold">Liberar Entrada</button>
           `;
           container.appendChild(card);
         }
       });
-    };
-
-    onValue(transRef, (snapshot) => {
-      const data = snapshot.val();
-      allTrips = data || {};
-      renderCards(allTrips);
     });
 
-    searchInput.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      const filtered = Object.fromEntries(
-        Object.entries(allTrips).filter(([_, t]) =>
-          t.motorista?.toLowerCase().includes(term) || 
-          t.placa_carro?.toLowerCase().includes(term) ||
-          t.transportadora?.toLowerCase().includes(term)
-        )
-      );
-      renderCards(filtered);
-    });
-
-    window.openZoom = (imageSrc) => {
-      document.getElementById('zoom-image').src = imageSrc;
-      document.getElementById('modal-zoom').classList.remove('hidden');
+    window.liberar = async (id) => {
+      if(confirm('Confirmar entrada do veículo?')) await update(ref(db, `transportes/${id}`), { status: 'aguardando_descarga' });
     };
-
-    window.liberarEntrada = async (id) => {
-      if(confirm('Confirmar liberação de entrada?')) {
-        await update(ref(db, `transportes/${id}`), { status: 'aguardando_descarga' });
-      }
-    };
-
-    document.getElementById('input-avatar').addEventListener('change', async (e) => {
-      if (e.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = async (ev) => {
-          const img = new Image();
-          img.onload = async () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = 200;
-            canvas.height = 200 * (img.height / img.width);
-            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-            const base64 = canvas.toDataURL('image/jpeg', 0.7);
-            await update(ref(db, `users/${user.username}`), { avatar: base64 });
-            user.avatar = base64;
-            localStorage.setItem('evo_user', JSON.stringify(user));
-            location.reload();
-          };
-          img.src = ev.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    });
   </script>
 </body>
 </html>

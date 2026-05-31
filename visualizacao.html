@@ -25,8 +25,9 @@
       <div class="flex items-center gap-6">
         <div id="live-clock" class="text-xl font-mono font-bold text-indigo-400">00:00:00</div>
         <div class="flex items-center gap-3 border-l border-slate-700 pl-6">
-          <img id="user-avatar-img" src="" class="w-8 h-8 rounded-full border border-slate-700 object-cover">
-          <button id="btn-logout" class="text-slate-400 hover:text-red-400 transition-colors text-sm">
+          <img id="user-avatar-img" src="" class="w-8 h-8 rounded-full border border-slate-700 object-cover" alt="Avatar">
+          <span id="user-display-name" class="text-sm font-semibold text-slate-700"></span>
+          <button id="btn-logout" class="text-slate-400 hover:text-red-400 transition-colors text-sm" title="Sair">
             <i class="fa-solid fa-right-from-bracket"></i>
           </button>
         </div>
@@ -38,6 +39,10 @@
     <!-- Grid de Resumo -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
       <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+        <p class="text-xs text-gray-500 font-bold uppercase">Pendente Validação</p>
+        <h3 id="count-pendente-validacao" class="text-3xl font-black text-slate-800">0</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
         <p class="text-xs text-gray-500 font-bold uppercase">Portaria</p>
         <h3 id="count-portaria" class="text-3xl font-black text-slate-800">0</h3>
       </div>
@@ -45,11 +50,11 @@
         <p class="text-xs text-gray-500 font-bold uppercase">Aguardando Pátio</p>
         <h3 id="count-aguardando" class="text-3xl font-black text-slate-800">0</h3>
       </div>
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-purple-500">
-        <p class="text-xs text-gray-500 font-bold uppercase">Em Descarga</p>
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-blue-500">
+        <p class="text-xs text-gray-500 font-bold uppercase">Em Carregamento</p>
         <h3 id="count-andamento" class="text-3xl font-black text-slate-800">0</h3>
       </div>
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-blue-500">
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-green-500">
         <p class="text-xs text-gray-500 font-bold uppercase">Concluídos</p>
         <h3 id="count-concluido" class="text-3xl font-black text-slate-800">0</h3>
       </div>
@@ -61,7 +66,7 @@
 
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
       <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-        <h2 class="font-bold text-gray-700">Fluxo Logístico Ativo</h2>
+        <h2 id="titulo-tabela" class="font-bold text-gray-700">Visão Geral - Todas as Transportadoras</h2>
       </div>
       <table class="w-full text-left">
         <thead class="text-[10px] uppercase text-gray-400 bg-gray-50">
@@ -70,35 +75,56 @@
             <th class="px-6 py-3">Veículo (Placas)</th>
             <th class="px-6 py-3">Transportadora</th>
             <th class="px-6 py-3">Status Atual</th>
-            <th class="px-6 py-3">Horário Ref.</th>
+            <th class="px-6 py-3">Horário INI</th>
+            <th class="px-6 py-3">Horário Portaria</th>
+            <th class="px-6 py-3">Horário FIM</th>
+            <th class="px-6 py-3">Horário Previsto CDC</th>
           </tr>
         </thead>
-        <tbody id="visualizacao-body" class="divide-y divide-gray-100">
-          <!-- Dados dinâmicos -->
-        </tbody>
+        <tbody id="visualizacao-body" class="divide-y divide-gray-100"></tbody>
       </table>
     </div>
   </main>
 
+  <!-- CHAT FLUTUANTE -->
+  <div id="floating-chat-container" class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+    <div id="chat-window" class="hidden w-80 md:w-96 h-[520px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden mb-4 flex flex-col">
+      <div class="bg-indigo-600 p-4 text-white flex justify-between items-center">
+        <span class="font-bold"><i class="fa-solid fa-comments mr-2"></i>Chat Operacional</span>
+        <button onclick="window.toggleChat()" class="hover:opacity-75"><i class="fa-solid fa-times"></i></button>
+      </div>
+      <div id="chat-box" class="flex-1 overflow-hidden"></div>
+    </div>
+    <button onclick="window.toggleChat()" class="bg-indigo-600 hover:bg-indigo-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-xl transition-all hover:scale-110">
+      <i class="fa-solid fa-message"></i>
+    </button>
+  </div>
+
   <script type="module">
     import { db, ref, onValue } from './bd.js';
     import { checkAuth, logout } from './auth.js';
+    import { initChat } from './chat.js';
 
     const user = checkAuth('visualizacao');
     document.getElementById('btn-logout').addEventListener('click', logout);
-    document.getElementById('user-avatar-img').src = user.avatar;
+    document.getElementById('user-avatar-img').src = user.avatar || 'https://via.placeholder.com/150';
+    document.getElementById('user-display-name').textContent = user.colaborador || user.username || '';
+    initChat(user, 'chat-box', 'visualizacao');
+    window.toggleChat = () => {
+      document.getElementById('chat-window').classList.toggle('hidden');
+    };
 
-    // Relógio
     setInterval(() => {
-      document.getElementById('live-clock').textContent = new Date().toLocaleTimeString();
+      document.getElementById('live-clock').textContent = new Date().toLocaleTimeString('pt-BR');
     }, 1000);
 
     const statusConfig = {
-      'aguardando_portaria': { label: 'Na Portaria', class: 'bg-slate-100 text-slate-600' },
-      'aguardando_descarga': { label: 'No Pátio / Aguardando', class: 'bg-yellow-100 text-yellow-700' },
-      'descarga_em_andamento': { label: 'Em Descarga', class: 'bg-purple-100 text-purple-700' },
-      'descarga_finalizada': { label: 'Descarga Concluída', class: 'bg-blue-100 text-blue-700' },
-      'liberado': { label: 'Veículo Liberado', class: 'bg-green-100 text-green-700' }
+      'pendente_validacao': { label: 'Pendente Validação', class: 'bg-slate-100 text-slate-600' },
+      'aguardando_portaria': { label: 'Portaria', class: 'bg-slate-100 text-slate-600' },
+      'aguardando_descarga': { label: 'Aguardando Pátio', class: 'bg-yellow-100 text-yellow-700' },
+      'descarga_em_andamento': { label: 'Em Carregamento', class: 'bg-purple-100 text-purple-700' },
+      'descarga_finalizada': { label: 'Concluídos', class: 'bg-blue-100 text-blue-700' },
+      'liberado': { label: 'Concluídos', class: 'bg-green-100 text-green-700' }
     };
 
     onValue(ref(db, 'transportes'), (snapshot) => {
@@ -106,48 +132,90 @@
       tbody.innerHTML = '';
       const data = snapshot.val();
       
-      let counts = { portaria: 0, aguardando: 0, andamento: 0, concluido: 0, total: 0 };
+      let counts = { pendente_validacao: 0, portaria: 0, aguardando: 0, andamento: 0, concluido: 0, total: 0 };
 
       if (!data) return;
 
-      Object.entries(data).reverse().forEach(([id, t]) => {
-        // Filtrar por transportadora do login
-        if (user.transportadora && t.transportadora !== user.transportadora) {
-          return;
+      const userTransp = user.transportadora ? String(user.transportadora).toLowerCase().trim() : null;
+      let autoTransp = null;
+      if (!userTransp && user.colaborador) {
+        const colab = String(user.colaborador).toLowerCase().trim();
+        for (const [, t] of Object.entries(data)) {
+          if (t.transportadora && String(t.transportadora).toLowerCase().trim() === colab) {
+            autoTransp = colab;
+            break;
+          }
         }
+      }
+      const effectiveTransp = userTransp || autoTransp;
+
+      if (effectiveTransp) document.getElementById('titulo-tabela').textContent = `Painel da Transportadora: ${effectiveTransp.toUpperCase()}`;
+
+      Object.entries(data).reverse().forEach(([id, t]) => {
+        const rowTransp = t.transportadora ? String(t.transportadora).toLowerCase().trim() : '';
+        if (effectiveTransp && rowTransp !== effectiveTransp) return;
 
         counts.total++;
+        if (t.status === 'pendente_validacao') counts.pendente_validacao++;
         if (t.status === 'aguardando_portaria') counts.portaria++;
         if (t.status === 'aguardando_descarga') counts.aguardando++;
         if (t.status === 'descarga_em_andamento') counts.andamento++;
         if (t.status === 'descarga_finalizada' || t.status === 'liberado') counts.concluido++;
 
-        const conf = statusConfig[t.status] || { label: t.status, class: 'bg-gray-100' };
-        const dataHora = t.timestamp ? new Date(t.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '--:--';
+        // Cálculo de Atraso para Indicadores Visuais
+        const now = new Date();
+        let isLate = false;
+        if (t.cdc_previsto && t.data) {
+            const [hours, minutes] = t.cdc_previsto.split(':').map(Number);
+            const target = new Date();
+            target.setHours(hours, minutes, 0, 0);
+            
+            const parts = t.data.split('/');
+            const dDate = parts.length === 3 ? new Date(parts[2], parts[1]-1, parts[0]) : null;
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+            if (dDate && dDate <= today && now > target && !t.validacao_timestamp) {
+                isLate = true;
+            }
+        }
+
+        const conf = statusConfig[t.status] || { label: t.status, class: 'bg-gray-100 text-gray-600' };
+        
+        const dataHoraIni = t.validacao_timestamp ? new Date(t.validacao_timestamp).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) : '--:--';
+        const dataHoraFim = t.timestamp_fim ? new Date(t.timestamp_fim).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) : '--:--';
 
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition-colors";
+        // Aplicação de destaque visual solicitado
+        tr.className = isLate 
+            ? "bg-red-50 text-red-900 transition-colors" 
+            : (t.validacao_timestamp ? "bg-green-50 text-green-900 transition-colors" : "hover:bg-slate-50 transition-colors");
+        
         tr.innerHTML = `
-          <td class="px-6 py-4 font-bold text-slate-700">${t.motorista}</td>
+          <td class="px-6 py-4 font-bold ${isLate ? 'text-red-700' : 'text-slate-700'}">${t.motorista || 'N/A'}</td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              <span class="bg-gray-800 text-white px-2 py-0.5 rounded text-[10px] font-mono">${t.placa_carro}</span> 
+              <span class="bg-gray-800 text-white px-2 py-0.5 rounded text-[10px] font-mono">${t.placa_carro || '---'}</span> 
             </div>
           </td>
           <td class="px-6 py-4">
-            <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px] font-bold">
-              ${t.transportadora}
-            </span>
-          <td class="px-6 py-4">
-            <span class="${conf.class} px-3 py-1 rounded-full text-xs font-bold border">
-              ${conf.label}
+            <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px] font-bold uppercase">
+              ${t.transportadora || 'N/A'}
             </span>
           </td>
-          <td class="px-6 py-4 text-sm text-gray-500 font-medium">${dataHora}</td>
+          <td class="px-6 py-4">
+            <span class="${isLate ? 'bg-red-200 text-red-800 border-red-300' : conf.class} px-3 py-1 rounded-full text-xs font-bold border">
+              ${isLate ? 'Fora do Prazo' : conf.label}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-sm font-medium">${dataHoraIni}</td>
+          <td class="px-6 py-4 text-sm font-medium">--:--</td>
+          <td class="px-6 py-4 text-sm font-medium">${dataHoraFim}</td>
+          <td class="px-6 py-4 text-sm font-bold uppercase">${t.cdc_previsto || '---'}</td>
         `;
         tbody.appendChild(tr);
       });
 
+      document.getElementById('count-pendente-validacao').textContent = counts.pendente_validacao;
       document.getElementById('count-portaria').textContent = counts.portaria;
       document.getElementById('count-aguardando').textContent = counts.aguardando;
       document.getElementById('count-andamento').textContent = counts.andamento;
